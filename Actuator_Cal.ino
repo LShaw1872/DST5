@@ -4,12 +4,15 @@
    Loops through PWM cycles on keypress by chosen step.
    To be used for actuator calibration for accurate control.
 
+   UNTESTED!
+
    WRITTEN BY: Boris Yanchev
 
-   VERSION: 1.0
+   VERSION: 1.1
 
    NOTES:
    -19/03 - initial creation.
+   -19/03 - added comments and fixed variables.
 
 */
 
@@ -17,9 +20,9 @@
 #define MaxPWM 255
 
 int PWMout = A1;
-int step = 0;
 
 
+//Intinite loop until key is pressed.
 void waitForPress() {
   while (true) {
     if (Serial.available() > 0) {
@@ -28,14 +31,15 @@ void waitForPress() {
   }
 }
 
-void getStep(){
+//Function returns step value input on serial terminal.
+int getStep(){
   Serial.printf("\nInput step size:\n");
   while (true){
     if(Serial.available()>0){
-      step = Serial.read();
       break;
       }
     }
+  return Serial.read();
   }
 
 void setup() {
@@ -43,7 +47,7 @@ void setup() {
 
   Serial.begin(9600);
   Serial.print("\nActuator Calibration Code\n");
-  getStep();
+  int step = getStep();
 
   for (int i = MinPWM; i <= MaxPWM; i += step) {
     analogWrite(PWMout, i);
