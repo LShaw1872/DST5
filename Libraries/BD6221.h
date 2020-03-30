@@ -4,34 +4,29 @@
 
 */
 
-#include "BD6221.h"
+// ensure this library description is only included once
+#ifndef BD6221_h
+#define BD6221_h
 
-actuator::actuator(int fin, int rin, int en)
+# include "Arduino.h"
+
+// library interface description
+class actuator
 {
-  finPin = fin;
-  pinMode(finPin, OUTPUT);
+  public:
+    actuator(int fin, int rin, int en);
 
-  rinPin = rin;
-  pinMode(rinPin, OUTPUT);
+    void brake();
 
-  enPin = en;
-  pinMode(enPin, OUTPUT);
+    void extendForce(int percentage);
 
-}
+    void retractForce(int percentage);
 
-void actuator::brake()
-{
-  digitalWrite(finPin, HIGH);
-  digitalWrite(rinPin, HIGH);
-}
+  private:
 
-void actuator::extendForce(int percentage) 
-{
-  analogWrite(finPin, percentage / 100 * 255);
-  digitalWrite(rinPin, LOW);
-}
+    int finPin;
+    int rinPin;
+    int enPin;
+};
 
-void actuator::retractForce(int percentage) {
-  analogWrite(rinPin, percentage / 100 * 255);
-  digitalWrite(finPin, LOW);
-}
+#endif
