@@ -19,16 +19,25 @@ actuator::actuator(int in1, int in2, int en)
 
 }
 
+
 void actuator::extending()
 {
   digitalWrite(in1Pin, HIGH);
   digitalWrite(in2Pin, LOW);
 }
 
+
 void actuator::retracting()
 {
   digitalWrite(in1Pin, LOW);
   digitalWrite(in2Pin, HIGH);
+}
+
+
+void actuator::reverse()
+{
+  digitalWrite(in1Pin, !digitalRead(in1Pin));
+  digitalWrite(in2Pin, !digitalRead(in2Pin));
 }
 
 
