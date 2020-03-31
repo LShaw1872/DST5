@@ -18,9 +18,12 @@
 #define extendedTh 1        //REPLACE WITH ACTUAL NUMBER!
 #define retractedTh 1       //REPLACE WITH ACTUAL NUMBER!
 #define maxRetractionTime 1 //REPLACE WITH ACTUAL NUMBER!
+#define forceStep 10
 
 
 bool hasMoved = false;
+float prevFSR = 0;
+int force = 0;
 
 actuator myActuator(15,16,17);
 IntervalTimer myTimer;
@@ -30,10 +33,22 @@ void raiseError(int errorCode){
     //do something with error code!
     while(1){}
     }
+  else if(errorCode==2){
+  //do something else
+  }
   }
 
+void changeState();    //function declaration
+
 void updatePWM(){
-  
+  float newFSR = analogRead(encoderPin);
+  if(newFSR == extendedTh OR newFSR == retractedTh){
+  hasMoved = 0;
+  changeState();
+  }
+  else if(prevFSR == newFSR){
+    force+=forceStep;
+    myActuator.changeForce(force);
   }
 
 void changeState(){
