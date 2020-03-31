@@ -14,18 +14,20 @@
 class actuator
 {
   public:
-    actuator(int fin, int rin, int en);
+    actuator(int in1, int in2, int en);
 
-    void brake();
+    void extending();
 
-    void extendForce(int percentage);
+    void retracting();
 
-    void retractForce(int percentage);
+    void reverse();
+
+    void changeForce(int percentage);
 
   private:
 
-    int finPin;
-    int rinPin;
+    int in1Pin;
+    int in2Pin;
     int enPin;
 };
 
