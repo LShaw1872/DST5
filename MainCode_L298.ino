@@ -18,17 +18,17 @@
 #define extendedTh 1        //REPLACE WITH ACTUAL NUMBER!
 #define retractedTh 1       //REPLACE WITH ACTUAL NUMBER!
 #define maxRetractionTime 1 //REPLACE WITH ACTUAL NUMBER!
-#define forceStep 10
+#define PWMStep 10
 
 
 bool hasMoved = false;
-float prevFSR = 0;
-int force = 0;
+float prevEnc = 0;
+int PWMvalue = 0;
 
 actuator myActuator(15,16,17);
 IntervalTimer myTimer;
 
-void raiseError(int errorCode){
+void raiseError(int errorCode){  //placeholder for function which responds to error codes
   if(errorCode==1){
     //do something with error code!
     while(1){}
@@ -40,14 +40,25 @@ void raiseError(int errorCode){
 
 void changeState();    //function declaration
 
+
+void getForceValue(){  //placeholder for function to get value from FSR
+  return 0;
+}
+
+
 void updatePWM(){
-  float newFSR = analogRead(encoderPin);
-  if(newFSR == extendedTh OR newFSR == retractedTh){
+  float newEncoder = analogRead(encoderPin);
+  
+  if(newEncoder == extendedTh OR newEncoder == retractedTh){
   hasMoved = 0;
+  myTimer.end();
   changeState();
   }
-  else if(prevFSR == newFSR){
-    force+=forceStep;
+  else if(prevEnc == newEnc){
+    if(PWMvalue == 100){
+     
+    }
+    PWMvalue+=PWMStep;
     myActuator.changeForce(force);
   }
 
